@@ -1,0 +1,95 @@
+import type { Destination, Trip, ItineraryDay, Hotel, Activity } from '../types';
+
+export const destinations: Destination[] = [
+  {
+    id: 'paris',
+    city: 'Paris',
+    country: 'France',
+    image: 'https://images.pexels.com/photos/31482953/pexels-photo-31482953.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    description: 'Romance, art and timeless café culture along the Seine.',
+    tag: 'Romantic',
+  },
+  {
+    id: 'tokyo',
+    city: 'Tokyo',
+    country: 'Japan',
+    image: 'https://images.pexels.com/photos/15275312/pexels-photo-15275312.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    description: 'Neon-lit nights, serene shrines and world-class cuisine.',
+    tag: 'Culture',
+  },
+  {
+    id: 'dubai',
+    city: 'Dubai',
+    country: 'UAE',
+    image: 'https://images.pexels.com/photos/19664340/pexels-photo-19664340.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    description: 'Skyscrapers, desert adventures and golden luxury.',
+    tag: 'Family',
+  },
+  {
+    id: 'bali',
+    city: 'Bali',
+    country: 'Indonesia',
+    image: 'https://images.pexels.com/photos/35428411/pexels-photo-35428411.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    description: 'Lush rice terraces, surf breaks and island serenity.',
+    tag: 'Relax',
+  },
+  {
+    id: 'london',
+    city: 'London',
+    country: 'UK',
+    image: 'https://images.pexels.com/photos/16771428/pexels-photo-16771428.png?auto=compress&cs=tinysrgb&h=650&w=940',
+    description: 'Royal landmarks, cozy pubs and vibrant West End shows.',
+    tag: 'City',
+  },
+  {
+    id: 'singapore',
+    city: 'Singapore',
+    country: 'Singapore',
+    image: 'https://images.pexels.com/photos/15480459/pexels-photo-15480459.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    description: 'Gardens by the Bay, hawker delights and futuristic skylines.',
+    tag: 'Family',
+  },
+];
+
+export const exploreDestinations: Destination[] = [
+  ...destinations,
+  {
+    id: 'goa',
+    city: 'Goa',
+    country: 'India',
+    image: 'https://images.pexels.com/photos/28368719/pexels-photo-28368719.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+    description: 'Sun-soaked beaches, Portuguese charm and seafood shacks.',
+    tag: 'Beach',
+  },
+];
+
+export const upcomingTrip: Trip = {
+  id: 'europe-adventure',
+  name: 'Europe Adventure',
+  image: 'https://images.pexels.com/photos/31482953/pexels-photo-31482953.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
+  destination: 'Paris → London → Amsterdam',
+  country: 'Europe',
+  days: 16,
+  travelers: '2 travelers',
+  budget: 85000,
+  interests: ['Culture', 'Food', 'Sightseeing'],
+  startDate: '10 Sep 2026',
+  endDate: '25 Sep 2026',
+  createdAt: Date.now() - 86400000 * 3,
+  progress: 72,
+  selectedHotels: [],
+  selectedActivities: [],
+  summary: 'A grand tour across three iconic European capitals.',
+  conditions: {
+    status: 'green',
+    statusLabel: 'Great conditions',
+    temperature: 22,
+    humidity: 'Moderate',
+    rainChance: 30,
+    recommendation: 'Pleasant late-summer weather across all three cities. Light layers recommended for evenings.',
+  },
+  hotels: [] as Hotel[],
+  activities: [] as Activity[],
+  itinerary: [] as ItineraryDay[],
+  budgetBreakdown: { accommodation: 40000, transportation: 20000, food: 15000, activities: 10000 },
+};
