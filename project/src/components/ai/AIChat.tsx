@@ -46,7 +46,7 @@ export function AIChat({ onPlan, resetKey }: AIChatProps) {
     }
   }, [messages, loading]);
 
-  const send = (text: string) => {
+  const send = async (text: string) => {
     if (!text.trim() || loading) return;
     const userMsg: ChatMessageType = { id: `u${Date.now()}`, role: 'user', text };
     setMessages((prev) => [...prev, userMsg]);
@@ -54,8 +54,8 @@ export function AIChat({ onPlan, resetKey }: AIChatProps) {
     setLoading(true);
     onPlan(null);
 
-    setTimeout(() => {
-      const plan = generatePlan(text);
+    try {
+      const plan = await generatePlan(text);
       const aiMsg: ChatMessageType = {
         id: `a${Date.now()}`,
         role: 'ai',
@@ -65,7 +65,16 @@ export function AIChat({ onPlan, resetKey }: AIChatProps) {
       setMessages((prev) => [...prev, aiMsg]);
       setLoading(false);
       onPlan(plan);
-    }, 1600);
+    } catch (error: any) {
+      console.error(error);
+      const aiMsg: ChatMessageType = {
+        id: `a${Date.now()}`,
+        role: 'ai',
+        text: `Sorry, I encountered an error planning your trip. Please try again.`,
+      };
+      setMessages((prev) => [...prev, aiMsg]);
+      setLoading(false);
+    }
   };
 
   return (

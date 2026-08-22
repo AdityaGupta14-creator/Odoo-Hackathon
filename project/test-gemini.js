@@ -1,15 +1,15 @@
-import { GoogleGenerativeAI, Schema, SchemaType } from '@google/generative-ai';
-import type { TripPlan } from '../types';
+import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-import festivalsCsv from '../../festivals_dataset.csv?raw';
-import bangaloreCsv from '../../bangalore.csv?raw';
-import seasonsCsv from '../../seasons_dataset.csv?raw';
-import travelCsv from '../../Expanded_Indian_Travel_Dataset.csv?raw';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey || '');
+const apiKey = 'AIzaSyDw_M0mpUE8upM_Lpt7th2F02Q8xgZR_-o';
+const genAI = new GoogleGenerativeAI(apiKey);
 
-const tripPlanSchema: Schema = {
+const tripPlanSchema = {
   type: SchemaType.OBJECT,
   properties: {
     destination: { type: SchemaType.STRING },
@@ -104,70 +104,35 @@ const tripPlanSchema: Schema = {
   required: ['destination', 'country', 'days', 'travelers', 'budget', 'interests', 'conditions', 'hotels', 'activities', 'itinerary', 'budgetBreakdown', 'summary']
 };
 
-export async function generatePlan(text: string): Promise<TripPlan> {
-  if (!apiKey) {
-    throw new Error('Gemini API Key is missing. Please set VITE_GEMINI_API_KEY in your .env file.');
+async function test() {
+  try {
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-1.5-flash',
+      generationConfig: {
+        responseMimeType: 'application/json',
+        responseSchema: tripPlanSchema,
+        temperature: 0.7,
+      }
+    });
+
+    const prompt = `
+      You are GlobeGuide AI, an expert travel planner.
+      Create a highly personalized, complete trip plan for the following user request.
+      
+      User Request: "Plan a 3-day family trip to Bangalore under ₹30,000 in January."
+      
+      Please provide a beautiful and realistic TripPlan JSON object.
+    `;
+
+    console.log("Sending prompt to Gemini...");
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    console.log("Raw Response:", responseText);
+    JSON.parse(responseText);
+    console.log("JSON parsed successfully!");
+  } catch (error) {
+    console.error("Error occurred:", error);
   }
-
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
-    generationConfig: {
-      responseMimeType: 'application/json',
-      responseSchema: tripPlanSchema,
-      temperature: 0.7,
-    }
-  });
-
-  const prompt = `
-    You are GlobeGuide AI, an expert travel planner.
-    Create a highly personalized, complete trip plan for the following user request.
-    Use the provided datasets to inform your suggestions for destinations, pricing, festivals, seasons, and hotels.
-    Make sure the budget breakdown matches the user's budget and the itinerary items.
-    
-    User Request: "${text}"
-
-    Context (Datasets snippets):
-    --- Festivals Dataset ---
-    ${festivalsCsv.substring(0, 2000)}
-    
-    --- Bangalore Locations ---
-    ${bangaloreCsv.substring(0, 2000)}
-    
-    --- Seasons Data ---
-    ${seasonsCsv.substring(0, 1500)}
-    
-    --- Expanded Travel Dataset ---
-    ${travelCsv.substring(0, 2500)}
-
-    Please provide a beautiful and realistic TripPlan JSON object. Use realistic Pexels or Unsplash image URLs (like https://images.pexels.com/photos/...) for hotels and activities.
-  `;
-
-  const result = await model.generateContent(prompt);
-  const responseText = result.response.text();
-  const plan: TripPlan = JSON.parse(responseText);
-  
-  return plan;
 }
 
-export function planTotal(plan: TripPlan): number {
-  const b = plan.budgetBreakdown;
-  return b.accommodation + b.transportation + b.food + b.activities;
-}
-
-export function tripNameFor(plan: TripPlan): string {
-  const style =
-    plan.travelers === 'Family'
-      ? 'Family Adventure'
-      : plan.travelers === 'Couple'
-        ? 'Romantic Escape'
-        : plan.travelers === 'Friends'
-          ? 'Friends Trip'
-          : 'Solo Journey';
-  return `${plan.destination} ${style}`;
-}
-
-export function slugFor(plan: TripPlan): string {
-  return `${plan.destination.toLowerCase()}-${plan.travelers.toLowerCase()}-adventure`
-    .replace(/[^a-z0-9-]/g, '-')
-    .replace(/-+/g, '-');
-}
+test();

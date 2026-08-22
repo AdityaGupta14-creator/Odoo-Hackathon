@@ -9,8 +9,16 @@ import { planTotal } from '@/data/ai';
 
 export function MyTripsPage() {
   const navigate = useNavigate();
-  const { trips } = useTrips();
+  const { trips, loading } = useTrips();
   const allTrips = [upcomingTrip, ...trips.filter((t) => t.id !== upcomingTrip.id)];
+
+  if (loading) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <div className="w-8 h-8 rounded-full border-2 border-brand-500 border-t-transparent animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
