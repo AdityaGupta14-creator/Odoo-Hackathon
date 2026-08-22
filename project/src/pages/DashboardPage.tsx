@@ -9,11 +9,12 @@ import { useTrips } from '@/context/TripsContext';
 import { useState } from 'react';
 
 const chips = [
-  { icon: '✨', label: 'Plan my trip', prompt: 'Plan a 4-day Dubai trip for my family under ₹60,000' },
-  { icon: '🌦️', label: 'Check travel conditions', prompt: 'What are the travel conditions like in Dubai?' },
-  { icon: '🏨', label: 'Find a hotel', prompt: 'Find a family-friendly hotel in Dubai under ₹7,000 per night' },
-  { icon: '💰', label: 'Optimize my budget', prompt: 'Make my Dubai trip cheaper — budget is ₹60,000' },
-  { icon: '🗺️', label: 'Build an itinerary', prompt: 'Build a 4-day Dubai itinerary with sightseeing, food and relaxation' },
+  { icon: '🏰', label: 'Winter in Rajasthan', prompt: 'Plan a 4-day Jaipur & Udaipur winter heritage trip under ₹35,000' },
+  { icon: '🏔️', label: 'Summer in Ladakh & Manali', prompt: 'Plan a 5-day cool summer getaway to Manali & Leh-Ladakh under ₹45,000' },
+  { icon: '🌧️', label: 'Monsoon in Kerala', prompt: 'Plan a relaxing 4-day monsoon trip to Kerala backwaters & Munnar under ₹30,000' },
+  { icon: '🌸', label: 'Spring in Kashmir', prompt: 'Plan a romantic 4-day spring trip to Kashmir & Gulmarg' },
+  { icon: '🏖️', label: 'Beach in Goa', prompt: 'Plan a 3-day budget Goa beach trip with friends under ₹20,000' },
+  { icon: '🪔', label: 'Autumn Cultural Tour', prompt: 'Build a 4-day cultural and festival itinerary for Varanasi & Kolkata' },
 ];
 
 export function DashboardPage() {
@@ -68,7 +69,7 @@ export function DashboardPage() {
                   goAI(input || undefined);
                 }
               }}
-              placeholder="Try: Plan a 4-day Dubai trip for my family under ₹60,000..."
+              placeholder="Try: Plan a 4-day Jaipur winter trip for my family under ₹35,000..."
               rows={1}
               className="flex-1 resize-none bg-transparent text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none py-2 max-h-32"
             />
@@ -176,7 +177,7 @@ export function DashboardPage() {
       {/* Quick stats footer */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 animate-fade-up" style={{ animationDelay: '240ms' }}>
         <QuickStat icon={<MapPin size={18} />} label="Trips planned" value={`${trips.length + 1}`} />
-        <QuickStat icon={<TrendingUp size={18} />} label="Avg budget" value="₹62K" />
+        <QuickStat icon={<TrendingUp size={18} />} label="Avg budget" value="₹38K" />
         <QuickStat icon={<Calendar size={18} />} label="Upcoming" value="1" />
         <QuickStat icon={<Sparkles size={18} />} label="AI plans" value={`${trips.length}`} />
       </div>

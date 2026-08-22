@@ -119,25 +119,29 @@ export async function generatePlan(text: string): Promise<TripPlan> {
   });
 
   const prompt = `
-    You are GlobeGuide AI, an expert travel planner.
+    You are GlobeGuide AI, an expert Indian travel planner and itinerary specialist.
     Create a highly personalized, complete trip plan for the following user request.
-    Use the provided datasets to inform your suggestions for destinations, pricing, festivals, seasons, and hotels.
-    Make sure the budget breakdown matches the user's budget and the itinerary items.
+    
+    PRIMARY GUIDELINES:
+    1. Focus on Indian destinations matching the appropriate Indian season (Winter, Spring, Summer, Monsoon, Post-Monsoon/Autumn, Peak Winter) from the seasons dataset.
+    2. Incorporate matching regional festivals and cultural events from the festivals dataset when relevant to the travel dates/months.
+    3. Ensure all prices and budget breakdowns are realistically denominated in Indian Rupees (₹).
+    4. Provide top recommendations for stays/hotels, authentic local activities, weather/travel conditions, day-by-day itinerary, and transparent budget allocation.
     
     User Request: "${text}"
 
-    Context (Datasets snippets):
-    --- Festivals Dataset ---
-    ${festivalsCsv.substring(0, 2000)}
+    Context (Datasets):
+    --- Indian Seasons Dataset ---
+    ${seasonsCsv}
     
-    --- Bangalore Locations ---
-    ${bangaloreCsv.substring(0, 2000)}
+    --- Indian Festivals Dataset ---
+    ${festivalsCsv}
     
-    --- Seasons Data ---
-    ${seasonsCsv.substring(0, 1500)}
+    --- Bangalore & Karnataka Locations ---
+    ${bangaloreCsv.substring(0, 2500)}
     
-    --- Expanded Travel Dataset ---
-    ${travelCsv.substring(0, 2500)}
+    --- Expanded Indian Travel Dataset ---
+    ${travelCsv.substring(0, 3000)}
 
     Please provide a beautiful and realistic TripPlan JSON object. Use realistic Pexels or Unsplash image URLs (like https://images.pexels.com/photos/...) for hotels and activities.
   `;
