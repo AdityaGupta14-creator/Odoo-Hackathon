@@ -6,19 +6,21 @@ import { ChatMessageBubble, TypingIndicator } from './ChatMessage';
 import { Button } from '@/components/ui/Button';
 
 const chips = [
-  { icon: '✨', label: 'Plan my trip', prompt: 'Plan a 4-day Dubai trip for my family under ₹60,000' },
-  { icon: '🌦️', label: 'Check travel conditions', prompt: 'What are the travel conditions like in Dubai?' },
-  { icon: '🏨', label: 'Find a hotel', prompt: 'Find a family-friendly hotel in Dubai under ₹7,000 per night' },
-  { icon: '💰', label: 'Optimize my budget', prompt: 'Make my Dubai trip cheaper — budget is ₹60,000' },
-  { icon: '🗺️', label: 'Build an itinerary', prompt: 'Build a 4-day Dubai itinerary with sightseeing, food and relaxation' },
+  { icon: '🏰', label: 'Winter in Rajasthan', prompt: 'Plan a 4-day Jaipur & Udaipur winter heritage trip under ₹35,000' },
+  { icon: '🏔️', label: 'Summer in Ladakh & Manali', prompt: 'Plan a 5-day cool summer getaway to Manali & Leh-Ladakh under ₹45,000' },
+  { icon: '🌧️', label: 'Monsoon in Kerala', prompt: 'Plan a relaxing 4-day monsoon trip to Kerala backwaters & Munnar under ₹30,000' },
+  { icon: '🌸', label: 'Spring in Kashmir', prompt: 'Plan a romantic 4-day spring trip to Kashmir & Gulmarg' },
+  { icon: '🏖️', label: 'Beach in Goa', prompt: 'Plan a 3-day budget Goa beach trip with friends under ₹20,000' },
+  { icon: '🪔', label: 'Autumn Cultural Tour', prompt: 'Build a 4-day cultural and festival itinerary for Varanasi & Kolkata' },
 ];
 
 const examples = [
-  'Plan a 4-day Dubai trip under ₹60,000',
-  'Plan a romantic trip to Paris',
-  'Best family trip to Singapore',
-  'Make my Europe trip cheaper',
-  'Plan a 5-day Goa trip with friends',
+  'Plan a 4-day Jaipur & Udaipur winter heritage trip under ₹35,000',
+  'Best monsoon getaway to Kerala backwaters & Coorg',
+  'Plan a 5-day summer mountain trip to Manali & Leh-Ladakh',
+  'Romantic spring trip to Kashmir tulip gardens & Gulmarg',
+  'Autumn festival & ghats tour to Varanasi & Kolkata',
+  'Plan a 3-day budget Goa trip with friends under ₹20,000',
 ];
 
 interface AIChatProps {
@@ -46,7 +48,7 @@ export function AIChat({ onPlan, resetKey }: AIChatProps) {
     }
   }, [messages, loading]);
 
-  const send = (text: string) => {
+  const send = async (text: string) => {
     if (!text.trim() || loading) return;
     const userMsg: ChatMessageType = { id: `u${Date.now()}`, role: 'user', text };
     setMessages((prev) => [...prev, userMsg]);
@@ -54,8 +56,8 @@ export function AIChat({ onPlan, resetKey }: AIChatProps) {
     setLoading(true);
     onPlan(null);
 
-    setTimeout(() => {
-      const plan = generatePlan(text);
+    try {
+      const plan = await generatePlan(text);
       const aiMsg: ChatMessageType = {
         id: `a${Date.now()}`,
         role: 'ai',
@@ -65,7 +67,16 @@ export function AIChat({ onPlan, resetKey }: AIChatProps) {
       setMessages((prev) => [...prev, aiMsg]);
       setLoading(false);
       onPlan(plan);
-    }, 1600);
+    } catch (error: any) {
+      console.error(error);
+      const aiMsg: ChatMessageType = {
+        id: `a${Date.now()}`,
+        role: 'ai',
+        text: `Sorry, I encountered an error planning your trip. Please try again.`,
+      };
+      setMessages((prev) => [...prev, aiMsg]);
+      setLoading(false);
+    }
   };
 
   return (
@@ -112,7 +123,7 @@ export function AIChat({ onPlan, resetKey }: AIChatProps) {
                 send(input);
               }
             }}
-            placeholder="Try: Plan a 4-day Dubai trip for my family under ₹60,000..."
+            placeholder="Try: Plan a 4-day Jaipur winter trip for my family under ₹35,000..."
             rows={1}
             className="flex-1 resize-none bg-transparent text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none py-2 max-h-32"
           />

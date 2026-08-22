@@ -18,13 +18,12 @@ const TripsContext = createContext<TripsContextValue | null>(null);
 
 export function TripsProvider({ children }: { children: ReactNode }) {
   const [trips, setTrips] = useState<Trip[]>(() => loadTrips());
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [dbStatus, setDbStatus] = useState<'connected' | 'local' | 'error'>('local');
   const { showToast } = useToast();
 
   // Initialize and Sync Supabase
   useEffect(() => {
-
     async function initSupabase() {
       const client = supabase;
 
@@ -32,7 +31,7 @@ export function TripsProvider({ children }: { children: ReactNode }) {
       try {
         const { data, error } = await client
           .from('trips')
-          .select('data')
+          .select('*')
           .order('created_at', { ascending: false });
 
         if (error) {
@@ -44,7 +43,10 @@ export function TripsProvider({ children }: { children: ReactNode }) {
 
         setDbStatus('connected');
         if (data && data.length > 0) {
-          const fetchedTrips = data.map((row: any) => row.data as Trip);
+          const fetchedTrips = data.map((row: any) => ({
+            ...(row.data || row),
+            id: row.id || row.data?.id,
+          })) as Trip[];
           setTrips(fetchedTrips);
           saveTrips(fetchedTrips);
         } else {

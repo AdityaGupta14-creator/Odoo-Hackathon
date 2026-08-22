@@ -7,7 +7,7 @@ export function ExplorePage() {
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('All');
 
-  const tags = ['All', 'Romantic', 'Family', 'Culture', 'Relax', 'Beach', 'City'];
+  const tags = ['All', 'Culture', 'Romantic', 'Adventure', 'Relax', 'Beach', 'Family'];
 
   const filtered = exploreDestinations.filter((d) => {
     const matchesQuery =
@@ -21,9 +21,9 @@ export function ExplorePage() {
     <div className="space-y-6">
       <div className="animate-fade-up">
         <h1 className="text-2xl sm:text-3xl font-display font-bold text-ink-900 tracking-tight mb-1">
-          Explore the world
+          Explore India by Seasons
         </h1>
-        <p className="text-ink-500">Search destinations and get inspired for your next adventure.</p>
+        <p className="text-ink-500">Discover incredible destinations handpicked for every season and festival across India.</p>
       </div>
 
       {/* Search + filters */}
