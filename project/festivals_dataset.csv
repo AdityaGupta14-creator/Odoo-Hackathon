@@ -1,0 +1,30 @@
+festival_name,month,date_type,region,suggested_cities,tags
+Makar Sankranti / Uttarayan,January,fixed(Jan 14),Gujarat,"Ahmedabad, Surat",kite-festival;culture;harvest
+Pongal,January,fixed(Jan 14-17),Tamil Nadu,"Chennai, Madurai, Thanjavur",harvest;culture;temple
+Lohri,January,fixed(Jan 13),Punjab,"Amritsar, Ludhiana, Chandigarh",harvest;bonfire;culture
+Republic Day,January,fixed(Jan 26),Delhi,"New Delhi",national;parade
+Losar (Tibetan New Year),February/March,lunar,Himachal Pradesh,"Dharamshala, McLeod Ganj",culture;monastery
+Vasant Panchami,February,lunar,Pan-India,"Varanasi, Kolkata",spring;culture;temple
+Maha Shivratri,February/March,lunar,Uttar Pradesh,"Varanasi, Ujjain",temple;pilgrimage
+Holi,March,lunar,Uttar Pradesh,"Mathura, Vrindavan, Barsana",colors;culture;festival
+Gudi Padwa,March/April,lunar,Maharashtra,"Mumbai, Pune, Nashik",new-year;culture
+Ugadi,March/April,lunar,Andhra Pradesh & Telangana,"Hyderabad, Vijayawada",new-year;culture
+Baisakhi,April,fixed(Apr 13-14),Punjab,"Amritsar, Chandigarh",harvest;culture;sikh
+Bihu (Rongali),April,fixed(Apr 14-15),Assam,"Guwahati, Jorhat",harvest;dance;culture
+Buddha Purnima,May,lunar,Bihar,"Bodh Gaya, Sarnath",pilgrimage;buddhism
+Rath Yatra,June/July,lunar,Odisha,"Puri",temple;procession;pilgrimage
+Teej,July/August,lunar,Rajasthan,"Jaipur, Jodhpur, Udaipur",monsoon;culture;women
+Raksha Bandhan,August,lunar,Pan-India,"Jaipur, Delhi, Varanasi",family;culture
+Onam,August/September,solar(Malayalam),Kerala,"Kochi, Alleppey, Thrissur",harvest;boat-race;culture
+Janmashtami,August,lunar,Uttar Pradesh,"Mathura, Vrindavan",temple;krishna;pilgrimage
+Ganesh Chaturthi,August/September,lunar,Maharashtra,"Mumbai, Pune",temple;procession;culture
+Navratri,September/October,lunar,Gujarat,"Ahmedabad, Vadodara, Surat",dance;garba;culture
+Durga Puja,September/October,lunar,West Bengal,"Kolkata",temple;pandal;culture
+Dussehra,October,lunar,Karnataka,"Mysuru, Kullu",procession;culture;heritage
+Diwali,October/November,lunar,Pan-India,"Varanasi, Jaipur, Amritsar",lights;culture;festival
+Chhath Puja,October/November,lunar,Bihar,"Patna, Varanasi",temple;river;culture
+Pushkar Camel Fair,November,lunar,Rajasthan,"Pushkar",fair;desert;culture
+Hornbill Festival,December,fixed(Dec 1-10),Nagaland,"Kohima",tribal;culture;music
+Christmas,December,fixed(Dec 25),Goa,"Goa, Kochi, Puducherry",festive;beach;culture
+Kumbh Mela (periodic),varies,lunar(every 3-4 yrs),Uttar Pradesh/Uttarakhand,"Prayagraj, Haridwar, Nashik, Ujjain",pilgrimage;mega-event
+International Kite Festival,January,fixed(Jan 14),Gujarat,"Ahmedabad",kite-festival;culture
