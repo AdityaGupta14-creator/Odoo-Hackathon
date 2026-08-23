@@ -8,6 +8,9 @@ export const destinations: Destination[] = [
     image: 'https://images.pexels.com/photos/3581368/pexels-photo-3581368.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
     description: 'Royal forts, desert safaris, lake palaces and vibrant winter bazaars.',
     tag: 'Culture',
+    category: 'Culture',
+    rating: 4.9,
+    price: 52000,
   },
   {
     id: 'kashmir',
@@ -32,6 +35,9 @@ export const destinations: Destination[] = [
     image: 'https://images.pexels.com/photos/962464/pexels-photo-962464.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
     description: 'Emerald tea plantations, tranquil backwater houseboats and ayurvedic retreats.',
     tag: 'Relax',
+    category: 'Relax',
+    rating: 4.7,
+    price: 28000,
   },
   {
     id: 'goa',
@@ -76,6 +82,9 @@ export const exploreDestinations: Destination[] = [
     image: 'https://images.pexels.com/photos/1450360/pexels-photo-1450360.jpeg?auto=compress&cs=tinysrgb&h=650&w=940',
     description: 'Turquoise waters, coral reef scuba diving, Radhanagar beach and sea walks.',
     tag: 'Beach',
+    category: 'Beach',
+    rating: 4.4,
+    price: 15000,
   },
   {
     id: 'rishikesh',
@@ -86,6 +95,23 @@ export const exploreDestinations: Destination[] = [
     tag: 'Adventure',
   },
 ];
+
+/**
+ * Fetches destinations with seasonal scoring from the CSV databases.
+ * Falls back to the hardcoded exploreDestinations on error.
+ */
+export async function fetchDestinations(): Promise<Destination[]> {
+  try {
+    const { getSeasonalDestinations } = await import('./seasonData');
+    // simulate network latency for loading skeleton UX
+    await new Promise((resolve) => setTimeout(resolve, 400 + Math.random() * 300));
+    return getSeasonalDestinations();
+  } catch (err) {
+    console.error('Failed to load seasonal data, falling back to defaults:', err);
+    await new Promise((resolve) => setTimeout(resolve, 800 + Math.random() * 600));
+    return exploreDestinations;
+  }
+}
 
 export const upcomingTrip: Trip = {
   id: 'royal-rajasthan-heritage',

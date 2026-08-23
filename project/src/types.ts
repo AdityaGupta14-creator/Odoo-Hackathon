@@ -5,6 +5,18 @@ export interface Destination {
   image: string;
   description: string;
   tag?: string;
+  category?: string;
+  rating?: number;
+  price?: number;
+  bestSeason?: string;
+  seasonMatch?: boolean;
+  seasonScore?: number;
+  climateTag?: string;
+  activityTags?: string[];
+  festival?: string;
+  state?: string;
+  region?: string;
+  attraction?: string;
 }
 
 export interface Hotel {

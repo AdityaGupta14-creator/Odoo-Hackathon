@@ -18,22 +18,37 @@ const TripsContext = createContext<TripsContextValue | null>(null);
 
 export function TripsProvider({ children }: { children: ReactNode }) {
   const [trips, setTrips] = useState<Trip[]>(() => loadTrips());
+<<<<<<< HEAD
   const [loading, setLoading] = useState<boolean>(true);
   const [dbStatus, setDbStatus] = useState<'connected' | 'local' | 'error'>('local');
   const { showToast } = useToast();
 
   // Initialize and Sync Supabase
+=======
+  const [loading, setLoading] = useState(true);
+
+  // Fetch initial trips from Supabase if configured, otherwise fallback to localStorage
+>>>>>>> 9936ed3 (feat: season-based destination suggestions from CSV databases)
   useEffect(() => {
     async function initSupabase() {
       const client = supabase;
 
       setLoading(true);
       try {
+<<<<<<< HEAD
         const { data, error } = await client
+=======
+        if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+          setLoading(false);
+          return;
+        }
+        const { data, error } = await supabase
+>>>>>>> 9936ed3 (feat: season-based destination suggestions from CSV databases)
           .from('trips')
           .select('*')
           .order('created_at', { ascending: false });
 
+<<<<<<< HEAD
         if (error) {
           console.error('Supabase query error:', error);
           setDbStatus('error');
@@ -68,11 +83,26 @@ export function TripsProvider({ children }: { children: ReactNode }) {
         console.error('Failed to initialize Supabase connection:', err);
         setDbStatus('error');
         showToast('Failed to connect to Supabase. Running in local fallback mode.', '⚠️');
+=======
+        if (error) throw error;
+        
+        if (data && data.length > 0) {
+          const loadedTrips = data.map((row) => ({
+            ...row.data,
+            id: row.id,
+          })) as Trip[];
+          setTrips(loadedTrips);
+          saveTrips(loadedTrips);
+        }
+      } catch (err) {
+        console.warn('Supabase not available, using local storage:', err);
+>>>>>>> 9936ed3 (feat: season-based destination suggestions from CSV databases)
       } finally {
         setLoading(false);
       }
     }
 
+<<<<<<< HEAD
     initSupabase();
   }, [showToast]);
 
@@ -136,6 +166,48 @@ export function TripsProvider({ children }: { children: ReactNode }) {
           console.error('Failed to update Supabase:', err);
           showToast('Changes saved locally, but database update failed.', '⚠️');
         }
+=======
+  const addTrip = useCallback(async (trip: Trip) => {
+    // Optimistic update + local storage
+    setTrips((prev) => {
+      const next = [trip, ...prev];
+      saveTrips(next);
+      return next;
+    });
+
+    try {
+      if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY) {
+        await supabase.from('trips').insert({
+          id: trip.id,
+          data: trip
+        });
+      }
+    } catch (err) {
+      console.warn('Could not sync trip addition to Supabase:', err);
+    }
+  }, []);
+
+  const updateTrip = useCallback(
+    async (id: string, patch: Partial<Trip>) => {
+      setTrips((prev) => {
+        const next = prev.map((t) => (t.id === id ? { ...t, ...patch } : t));
+        saveTrips(next);
+        return next;
+      });
+
+      try {
+        if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY) {
+          const existingTrip = trips.find((t) => t.id === id);
+          if (existingTrip) {
+            await supabase
+              .from('trips')
+              .update({ data: { ...existingTrip, ...patch } })
+              .eq('id', id);
+          }
+        }
+      } catch (err) {
+        console.warn('Could not sync trip update to Supabase:', err);
+>>>>>>> 9936ed3 (feat: season-based destination suggestions from CSV databases)
       }
     },
     [trips, dbStatus, showToast],
@@ -143,6 +215,7 @@ export function TripsProvider({ children }: { children: ReactNode }) {
 
   const removeTrip = useCallback(
     async (id: string) => {
+<<<<<<< HEAD
       // 1. Update local state & localStorage immediately
       const nextTrips = trips.filter((t) => t.id !== id);
       setTrips(nextTrips);
@@ -164,6 +237,23 @@ export function TripsProvider({ children }: { children: ReactNode }) {
       }
     },
     [trips, dbStatus, showToast],
+=======
+      setTrips((prev) => {
+        const next = prev.filter((t) => t.id !== id);
+        saveTrips(next);
+        return next;
+      });
+
+      try {
+        if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY) {
+          await supabase.from('trips').delete().eq('id', id);
+        }
+      } catch (err) {
+        console.warn('Could not sync trip deletion to Supabase:', err);
+      }
+    },
+    [],
+>>>>>>> 9936ed3 (feat: season-based destination suggestions from CSV databases)
   );
 
   const getTrip = useCallback((id: string) => trips.find((t) => t.id === id), [trips]);
