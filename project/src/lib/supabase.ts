@@ -1,12 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = (import.meta.env.VITE_SUPABASE_URL as string) || '';
-const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY as string) || '';
+const rawUrl = import.meta.env.VITE_SUPABASE_URL;
+const rawKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
+const supabaseUrl = rawUrl && rawUrl.trim() !== '' ? rawUrl : 'https://placeholder.supabase.co';
+const supabaseAnonKey = rawKey && rawKey.trim() !== '' ? rawKey : 'placeholder-key';
+
+if (!rawUrl || !rawKey) {
   console.warn(
-    '[GlobeTrotter] Missing Supabase environment variables.\n' +
-    'Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env file.'
+    '[GlobeTrotter] Missing Supabase environment variables. Running in local storage fallback mode.'
   );
 }
 
